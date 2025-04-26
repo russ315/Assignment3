@@ -1,9 +1,10 @@
 public class MyHashTable<K,V> {
     private class HashNode<K,V>
     {
-        private K key;
+        private final K key;
         private V value;
         private HashNode<K,V> next;
+
 
         public HashNode(K key, V value) {
             this.key = key;
@@ -15,16 +16,28 @@ public class MyHashTable<K,V> {
         }
     }
 
-    private HashNode<K,V>[] chainArray;
+    private final HashNode[] chainArray;
+    public HashNode[] getChainArray() {
+        return chainArray;
+    }
+    public int getBucketSize(HashNode<K,V> node) {
+        int buckerSize = 0;
+        while(node != null){
+            node = node.next;
+            buckerSize++;
+        }
+        return buckerSize;
+    }
     private int M = 11;
-    private int size;
+    private int size = 0;
     public MyHashTable()
     {
         chainArray = new HashNode[M];
-        size = 0;
     }
     public MyHashTable(int M){
         this.M = M;
+        chainArray = new HashNode[M];
+
     }
     public void put(K key,V value){
         var index = hash(key);
@@ -47,7 +60,7 @@ public class MyHashTable<K,V> {
         var head = chainArray[index];
         while (head != null){
             if(head.key.equals(key)){
-                return head.value;
+                return (V) head.value;
             }
             head = head.next;
         }
@@ -91,6 +104,6 @@ public class MyHashTable<K,V> {
         return null;
     }
     private int hash(K key){
-        return key.hashCode() % M;
+        return Math.abs(key.hashCode() % M);
     }
 }
