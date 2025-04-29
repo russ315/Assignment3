@@ -2,26 +2,19 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
-        MyHashTable<MyTestingClass, Student> table = new MyHashTable<>(100); // 100 бакетов
+        BST<String,Integer> tree = new BST<>();
+        tree.put("c", 3);
+        tree.put("a", 1);
+        tree.put("b", 2);
+        tree.put("d", 4);
 
-        Random random = new Random();
+        System.out.println("Tree size = " + tree.size());
+        // → Tree size = 4
 
-        // Добавляем 10000 случайных элементов
-        for (int i = 0; i < 10000; i++) {
-            int id = random.nextInt(100000);
-            String name = generateRandomName(random);
-            MyTestingClass key = new MyTestingClass(id, name);
-            Student value = new Student("Student_" + i, random.nextInt(18, 30));
-            table.put(key, value);
+        for (BST<String,Integer>.Node node : tree) {
+            System.out.printf("key = %s, value = %d%n",
+                    node.getKey(), node.getValue());
         }
-
-        // Выводим размер каждой цепочки
-        System.out.println("Bucket sizes:");
-        for (int i = 0; i < 100; i++) {
-
-            System.out.println("Bucket " + i + ": " + table.getBucketSize(table.getChainArray()[i]) + " elements");
-        }
-
 
     }
 
